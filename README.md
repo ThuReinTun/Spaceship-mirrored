@@ -1,14 +1,3 @@
-How to play
-
-Arrow <UP>		--> Thrust
-Arrow <LEFT>	--> Turn left
-Arrow <RIGHT>	--> Turn right
-Arrow <DOWN>	--> Turn down
-Spacebar		--> Auto thrust
-Shift			--> Toggle drifting
-
--- more to come after adding collisions --
-
 # Spaceship-mirrored
 Control one spaceship and the rest are mirrored.
 
