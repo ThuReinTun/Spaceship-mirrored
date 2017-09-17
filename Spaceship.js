@@ -11,10 +11,10 @@ var spaceship = {
 	brakeFriction: null,
 	brakeUsing: null,	// boolean // this is lame use // think another way to know ship is using brake.
 
-	create: function (x, y, speed, direction, radius, mass) {
+	create: function (x, y, radius, mass) {
 		var obj = Object.create(this);
-		obj.particle = particle.create(x, y, speed, direction, 0);
-		obj.setRadius(radius || 1);
+		obj.particle = particle.create(x, y, 0, 0, 0);
+		obj.setRadius(radius);
 		obj.setTurnRate(0.2);
 		obj.setAngle(0);
 		obj.setThrust(vector.create(0, 0));
@@ -122,6 +122,22 @@ var spaceship = {
 			this.particle.position.setY(height);
 		}
 	},
+	screenCollision: function (width, height) { // not very realistic yet // need to apply better physics
+		var angle = this.particle.velocity.getDirection();
+
+		if (this.particle.position.x > width) {
+			this.particle.velocity.setDirection(angle - (Math.PI / 2));
+		}
+		else if (this.particle.position.x < 0) {
+			this.particle.velocity.setDirection(angle + (Math.PI / 2));
+		}
+		if (this.particle.position.y > height) {
+			this.particle.velocity.setDirection(angle + (Math.PI / 2));
+		}
+		else if (this.particle.position.y < 0) {
+			this.particle.velocity.setDirection(angle - (Math.PI / 2));
+		}
+	},
 	updateThrust: function () {
 		this.thrust.setDirection(this.angle);
 		if (this.isAutoThrust()) {
@@ -147,5 +163,63 @@ var spaceship = {
 		this.particle.accelerate(this.thrust);
 		this.particle.updatePosition();
 		this.controlOverspeed();
+	},
+
+	//// /* /* View Controller Starts here */ */ 
+	/* ===== ===== ===== ===== ===== ===== ===== ===== ===== */
+	
+	render: function (context, width, height, shipColor) {
+
+		// translate and rotate
+		context.save();
+		context.translate(this.particle.position.x, this.particle.position.y);
+		context.rotate(this.angle); // VERY BIG DIFFERENCE between ship.velocity.getDirection and thrust.getDirection()
+
+		// Draw roket body triangle 
+		context.beginPath();
+		context.moveTo(-10, -10);
+		context.lineTo(-10, 10);
+		context.lineTo(20, 0);
+		context.lineTo(-10, -10);
+		context.stroke();
+
+		context.fillStyle = shipColor;
+		context.fill();
+
+		// red color filling for brake
+		if (this.isBrakeUsing()) {
+			context.fillStyle = "rgba(255, 0, 0, 0.8)";
+			context.fill();
+		}
+
+		// Draw ignition triangle // this is lame // need to built modular objects 
+		if (this.isThrusting() || this.isAutoThrust()) {
+			context.beginPath();
+			context.moveTo(-10, 5);
+			context.lineTo(-25, 0);
+			context.lineTo(-10, -5);
+			context.fillStyle = "rgba(255, 100, 0, 0.8)";
+			context.fill();
+
+			// Draw ignition cluster particles // ignition consumes performance
+			// 1000 spaceships on screen with the following ignition cluster particles will make the screen lag.
+			for (var i = 0; i < 5; i ++) {
+				var x = Math.random() * (50 - 20) - 40,
+					y = Math.random() * (30 - 10) - 10;
+
+				context.beginPath();
+				context.arc(x, y, 1, 0, Math.PI * 2, false);
+				context.strokeStyle = context.fillStyle = "rgba(250, 100, 0, 1)";
+				context.stroke();
+			}
+		}
+
+		// restore context state
+		context.restore();
+
+		// screen Wrapping of ship // to stay inside the screen
+				// you can use either of the two below
+		// this.screenCollision(width, height);
+		this.screenWrapping(width, height);
 	}
 }
