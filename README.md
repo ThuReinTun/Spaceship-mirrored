@@ -12,4 +12,3 @@ URL production
 
 URL development
 https://rawgit.com/ThuReinTun/Spaceship-mirrored/master/index.html
-`rawgit URL development is not updating the lastest git`
