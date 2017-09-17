@@ -1,6 +1,9 @@
 # Spaceship-mirrored
 Control one spaceship and the rest are mirrored.
 
+# Collision
+need to add collision in this playground
+
 # rawgit
 URL production
 1) https://cdn.rawgit.com/ThuReinTun/Spaceship-mirrored/c83d8a14/index.html `v1.0.1`
