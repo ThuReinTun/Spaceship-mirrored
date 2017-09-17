@@ -177,10 +177,27 @@ var spaceship = {
 
 		// Draw roket body triangle 
 		context.beginPath();
+			/* triangle head */
 		context.moveTo(-10, -10);
 		context.lineTo(-10, 10);
 		context.lineTo(20, 0);
 		context.lineTo(-10, -10);
+			/* exhaust */
+		context.moveTo(-10, -10);
+		context.lineTo(-15, -5);
+		context.moveTo(-10, 10);
+		context.lineTo(-15, 5);
+
+		context.stroke();
+
+			/* round body */
+		context.beginPath();
+		context.moveTo(-10, 20);
+		context.lineTo(-10, -20);
+		context.stroke();
+
+		context.beginPath();
+		context.arc(-10, 0, 15, -(Math.PI) / 2, Math.PI / 2, false);
 		context.stroke();
 
 		context.fillStyle = shipColor;
