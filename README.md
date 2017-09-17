@@ -12,3 +12,4 @@ URL production
 
 URL development
 https://rawgit.com/ThuReinTun/Spaceship-mirrored/master/index.html
+https://rawgit.com/ThuReinTun/Spaceship-mirrored/master/index.html
